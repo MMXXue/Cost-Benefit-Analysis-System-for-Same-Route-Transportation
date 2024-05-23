@@ -1,0 +1,90 @@
+{% load static from static %}
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>系统前台登录界面</title>
+  <!-- 支持响应式布局 -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <link rel="stylesheet" href="{% static 'myadmin/bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
+  <!-- 象形字体 -->
+  <link rel="stylesheet" href="{% static 'myadmin/bower_components/font-awesome/css/font-awesome.min.css' %}">
+  <!-- 图标 -->
+  <link rel="stylesheet" href="{% static 'myadmin/bower_components/Ionicons/css/ionicons.min.css' %}">
+  <!-- 主题风格样式 -->
+  <link rel="stylesheet" href="{% static 'myadmin/dist/css/AdminLTE.min.css' %}">
+  <!-- AdminLTE 皮肤.这里选择的是skin-blue样式，我们还可以有其他皮肤可以选择. -->
+  <link rel="stylesheet" href="{% static 'myadmin/dist/css/skins/skin-blue.min.css' %}">
+  <!-- 兼容IE9以下浏览器 -->
+  <!--[if lt IE 9]>
+  <script src="{% static 'myadmin/local/js/html5shiv.min.js' %}"></script>
+  <script src="{% static 'myadmin/local/js/respond.min.js' %}"></script>
+  <![endif]-->
+  <!-- Google Font -->
+  <link rel="stylesheet" href="{% static 'myadmin/local/css/google_fonts.css' %}">
+</head>
+<body class="hold-transition login-page">
+<div class="login-box">
+  <div class="login-logo">
+    <a><b>出行系统前台登录</b></a>
+  </div>
+  <!-- /.login-logo -->
+  <div class="login-box-body">
+    <a role="button" href="{% url 'myadmin_login' %}" class="btn btn-primary">
+                      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>系统后台</a>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+      <a role="button" href="{% url 'mobile_register' %}" class="btn btn-primary">
+                      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>手机端系统</a>
+
+  <br/><br/>
+    <a role="button" href="{% url 'web_user_add' %}" class="btn btn-primary">
+                      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>注册账号！</a>
+    <p class="login-box-msg" style="color:red">{{ info }}</p>
+    <form action="{% url 'web_dologin' %}" method="post">
+      {% csrf_token %}
+      <div class="form-group has-feedback">
+        <input type="text" name="username" class="form-control" placeholder="账号">
+        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <input type="password" name="pass"  class="form-control" placeholder="密码">
+        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <input type="text" name="code" style="display:inline;width:170px;" class="form-control"  placeholder="验证码">
+           <img src="{% url 'web_verify' %}"/>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <button type="submit" class="btn btn-primary btn-block btn-flat">登录</button>
+        </div>
+          <div class="form_group">
+              <p class="login-box-msg" style="color: red">
+                  {% if request.GET.errinfo == '1' %}
+                      无，测试
+                  {% elif request.GET.errinfo == '2' %}
+                      验证码错误！
+                  {% elif request.GET.errinfo == '3' %}
+                      此账号不存在！
+                  {% elif request.GET.errinfo == '4' %}
+                      无效的登录账号！
+                  {% elif request.GET.errinfo == '5' %}
+                      登录密码错误！
+                  {% endif %}
+              </p>
+          </div>
+        <!-- /.col -->
+      </div>
+    </form>
+
+  </div>
+  <!-- /.login-box-body -->
+</div>
+<!-- /.login-box -->
+
+<!-- jQuery 3 -->
+<script src="{% static 'myadmin/bower_components/jquery/dist/jquery.min.js' %}"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="{% static 'myadmin/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+</body>
+</html>

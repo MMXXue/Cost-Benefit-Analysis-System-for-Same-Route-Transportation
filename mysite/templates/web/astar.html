@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>机动车路径规划</title>
+</head>
+<body>
+    <div style="position: absolute; width: 100%; height: 100%">
+
+        <div id="head" style="width: 100%; height: 15%; position:relative; background: #3E87E3; vertical-align:middle">
+            <h1 style="font-style: italic;font-weight:bolder;text-align:center;margin: auto;;padding: 20px">机动车路径规划</h1>
+            <button><a role="button" href="{% url 'web_index' %}" class="btn btn-primary">
+                      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>返回首页</a></button>
+        </div>
+        <div id="content" style="text-align: center;background-color: lightgrey;padding: 20px;height: 85%;position:relative;">
+            <table style="border-collapse:collapse" border="1" cellpadding="10" cellspacing="5" align="center">
+
+                <tr>
+                    <td>机动车路径规划</td>
+                    <td>总距离（米）</td>
+                    <td>总耗时（分钟）[汽车额外增加了20分钟的堵车时间]</td>
+                </tr>
+                <tr>
+                    {% for i in car_dic.values %}
+                        <td>{{ i }}</td>
+                    {% endfor %}
+                </tr>
+
+            </table>
+        </div>
+
+    </div>
+</body>
+</html>

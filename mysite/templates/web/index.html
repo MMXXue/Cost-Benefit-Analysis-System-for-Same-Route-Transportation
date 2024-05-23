@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<head>
+    <title>地图首页</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+
+    <script>
+        function loadXMLDoc()
+        {
+            var xmlhttp;
+            if (window.XMLHttpRequest)
+            {
+                //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+                xmlhttp=new XMLHttpRequest();
+            }
+            else
+            {
+                // IE6, IE5 浏览器执行代码
+                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.onreadystatechange=function()
+            {
+                if (xmlhttp.readyState==4 && xmlhttp.status==200)
+                {
+                    document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+                }
+            }
+            xmlhttp.open("GET","/try/ajax/ajax_info.txt",true);
+            xmlhttp.send();
+        }
+    </script>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_a2a98451d55d4393a69458966c3e35e3 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+            </style>
+        
+</head>
+<body>    
+    <div style="position: absolute; width: 100%; height: 100%">
+
+        <div id="head" style="width: 100%; height: 10%; position:relative; background: #3E87E3; vertical-align:middle">
+            <h1 style="font-style: italic;font-weight:bolder;text-align:center;margin: auto;padding: 20px">同线路交通出行性价比系统</h1>
+        </div>
+
+        <div class="folium-map" id="map_a2a98451d55d4393a69458966c3e35e3" style="float:left; width: 60%; height: 90%; position: relative">
+        </div>
+
+        <div id="info" style="float: left; width: 40%;height: 90%; position: relative; background:lightgrey";>
+            <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="../navbar/">
+                    <span class="glyphicon glyphicon-user" aria-hidden="true">{{ request.session.webuser.nickname }}</a></span>
+                    <li><a href="{% url 'web_logout' %}">退出</a> </li>
+            </ul>
+            <h3>路径规划</h3>
+            <button style="border:2px solid #a1a1a1;padding:10px 40px; background:#dddddd;width:50%; height:60%;border-radius:25px;position: relative;float: left">
+                <p style="font-size: xxx-large;">市内出行</p>
+                <div>
+                    <form action="{% url 'web_findway' %}" method="get" style="text-align: left">
+                        {% csrf_token %}
+                        <h3>起始地：<input type="text" name="web_start_location" /><br/></h3>
+                        <h3>目的地：<input type="text" name="web_arrival_location" /><br/></h3>
+                        <h3>交通工具：<input type="text" name="web_tool" placeholder="地铁/公交车/汽车"/><br/></h3>
+                        <input type="submit" value="确定">
+                    </form>
+                </div>
+            </button>
+
+            <button style="border:2px solid #a1a1a1;padding:10px 40px; background:#dddddd;width:50%; height:60%;border-radius:25px;position: relative">
+                <p style="font-size: xxx-large;">跨省/市出行</p>
+                <div>
+                    <form action="{% url 'web_search' %}" method="get" style="text-align: left">
+                        {% csrf_token %}
+                        <h3>出发城市：<input type="text" name="start" /><br/></h3>
+                        <h3>到达城市：<input type="text" name="arrival" /><br/></h3>
+                        <input type="submit" value="确定">
+                    </form>
+                </div>
+            </button>
+        </div>
+
+    </div>
+</body>
+<script>
+
+        var map_a2a98451d55d4393a69458966c3e35e3 = L.map(
+            "map_a2a98451d55d4393a69458966c3e35e3",
+            {
+                center: [30.885617, 121.892161],
+                crs: L.CRS.EPSG3857,
+                zoom: 16,
+                zoomControl: true,
+                preferCanvas: false,
+            }
+        );
+
+
+        var tile_layer_858e9d81cd2a42eb87f440d453d68036 = L.tileLayer(
+            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+            {
+                "attribution": "Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.",
+                "detectRetina": false,
+                "maxNativeZoom": 18,
+                "maxZoom": 18,
+                "minZoom": 0,
+                "noWrap": false,
+                "opacity": 1,
+                "subdomains": "abc",
+                "tms": false
+            }
+        ).addTo(map_a2a98451d55d4393a69458966c3e35e3);
+
+
+        var marker_eaa273814d8e43819663736c2f570c62 = L.marker(
+            [30.885617, 121.892161],
+            {}
+        ).addTo(map_a2a98451d55d4393a69458966c3e35e3);
+
+
+        var icon_5187479152fe446c8628c2eea4eaa930 = L.AwesomeMarkers.icon(
+            {
+                "extraClasses": "fa-rotate-0",
+                "icon": "info-sign",
+                "iconColor": "white",
+                "markerColor": "green",
+                "prefix": "glyphicon"
+            }
+        );
+        marker_eaa273814d8e43819663736c2f570c62.setIcon(icon_5187479152fe446c8628c2eea4eaa930);
+
+
+        var popup_3a4097a3818048b5854644bbfa5fb8a1 = L.popup({"maxWidth": "100%"});
+
+
+        var html_ec043828778246c1ac87bd307df2c11d = $(`<div id="html_ec043828778246c1ac87bd307df2c11d" style="width: 100.0%; height: 100.0%;">&#19978;&#28023;&#28023;&#27915;&#22823;&#23398;</div>`)[0];
+        popup_3a4097a3818048b5854644bbfa5fb8a1.setContent(html_ec043828778246c1ac87bd307df2c11d);
+
+
+        marker_eaa273814d8e43819663736c2f570c62.bindPopup(popup_3a4097a3818048b5854644bbfa5fb8a1)
+        ;
+
+        
+    
+</script>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>当日两地之间火车票查询</title>
+</head>
+<body>
+
+</body>
+
+<body>
+    <div style="position: absolute; width: 100%; height: 100%">
+
+        <div id="head" style="width: 100%; height: 10%; position:relative; background: #3E87E3; vertical-align:middle">
+            <h1 style="font-style: italic;font-weight:bolder;text-align:center;margin: auto;;padding: 20px;">当日火车票相关信息</h1>
+            <div>
+                <a href="{%  url 'mobile_index' %}"><button style="font-size: large">返回</button></a>
+            </div>
+        </div>
+
+    <br/>
+        <div id="content" style="text-align: center;background-color: white;padding: 20px;height: 90%;position:relative;">
+            <table style="border-collapse:collapse" border="1" cellpadding="10" cellspacing="5" align="center">
+                <tr>
+                    <td>出发时间</td>
+                    <td>到达时间</td>
+                    <td>出发火车站</td>
+                    <td>到达火车站</td>
+                    <td>总耗时</td>
+                    <td>车次</td>
+                    <td>费用(元)</td>
+                    <td>票数</td>
+                </tr>
+                {% for i in new_list  %}
+                    <tr>
+                    {% for k in i.values %}
+                            <td>{{ k }}</td>
+                    {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+        <br/>
+
+        </div>
+
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+    for i in num:
+        train = []
+        train_from_time = i.xpath('.//div[@class="from"]/div[@class="time"]/text()')
+        train_to_time = i.xpath('.//div[@class="to"]/div[@class="time"]/text()')
+        del train_to_time[1]
+        train.extend(train_from_time)
+        train.extend(train_to_time)
+        train_haoshi = i.xpath('.//div[@class="haoshi"]/text()')
+        train_checi = i.xpath('.//div[@class="checi"]/text()')
+        train_price = i.xpath('.//div[@class="price"]/text()')
+        #train_site_level = i.xpath('.//ul[@class ="surplus-list"]//text()')
+        train_site_sum = []
+
+        train_checi1 = i.xpath('.//div[@class="checi"]/text()')
+        str1 = ''.join(train_checi1)
+        if str1.startswith('D'):
+            train_site_level = i.xpath('.//ul[@class ="surplus-list"]//text()')
+            sum = ""
+            for a in train_site_level:
+                sum += a
+            train_site_sum.append(sum)
+        elif str1.startswith('G'):
+            train_site_level = i.xpath('.//ul[@class ="surplus-list"]//text()')
+            sum = ""
+            for a in train_site_level:
+                sum += a
+            train_site_sum.append(sum)
+        elif str1.startswith('Z'):
+            train_site_level = i.xpath('.//ul[@class ="surplus-list"]//text()')
+            sum = ""
+            for a in train_site_level:
+                sum += a
+            train_site_sum.append(sum)
+        elif str1.startswith('K'):
+            train_site_level = i.xpath('.//ul[@class ="surplus-list"]//text()')
+            sum = ""
+            for a in train_site_level:
+                sum += a
+            train_site_sum.append(sum)
+        elif str1.startswith('T'):
+            train_site_level = i.xpath('.//ul[@class ="surplus-list"]//text()')
+            sum = ""
+            for a in train_site_level:
+                sum += a
+            train_site_sum.append(sum)
+        elif str1.startswith('L'):
+            train_site_level = i.xpath('.//ul[@class ="surplus-list"]//text()')
+            sum = ""
+            for a in train_site_level:
+                sum += a
+            train_site_sum.append(sum)
+        elif str1.startswith('A'):
+            train_site_level = i.xpath('.//ul[@class ="surplus-list"]//text()')
+            sum = ""
+            for a in train_site_level:
+                sum += a
+            train_site_sum.append(sum)
+        from_station = i.xpath('.//div[@class="from"]/div[2]/text()')
+        to_station = i.xpath('.//div[@class="to"]/div[2]/text()')
+        train.extend(from_station)
+        train.extend(to_station)
+        train.extend(train_haoshi)
+        train.extend(train_checi)
+        train.extend(train_price)
+        train.extend(train_site_sum)
+        train_sum.append(train)
